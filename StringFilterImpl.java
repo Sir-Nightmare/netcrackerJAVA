@@ -223,6 +223,8 @@ public class StringFilterImpl implements StringFilter {
      * @param format формат числа
      * @return строки, удовлетворяющие заданному числовому формату
      */
+
+
     @Override
     public Iterator<String> getStringsByNumberFormat(String format) {
         Collection<String> answer = new HashSet<>();
@@ -234,16 +236,38 @@ public class StringFilterImpl implements StringFilter {
             for (String str : strings) {
                 if (str != null) {
                     s = str.toCharArray();
+                    //на данный момент строка и формат превратились в символьные массивы, проверим равна ли их длина
                     if (s.length == f.length) {
-                        for (int i = 0; i < s.length; i++) {
-                            String sfn = ""+s;
-                            if ((f[i] != '#' && f[i] == s[i])||
-                                    (f[i] == '#' && numbers.contains(sfn) &&
-                                            sfn.length() == 1)) {
+                        //пройдём по длине и сравним элементы, которые эквивалентны
+                        int countNotResh=0;
+                        int countSimular=0;
+                        //в следующих двух блоках мы находим колличество символов не равных решетке и кол-во символов не раных решетки и равных строке
+                        for (int i = 0; i < f.length; i++) {
+                            if (f[i] != '#' ){
+                                countNotResh++;
+                            }
+                            if(f[i]!='#'&& (f[i]==s[i])){
+                                countSimular++;
+                            }
+                        }
+                        int countResh=0;
+                        int countNumber=0;
+                        //если совпало кол-во похожих и кол-во нерешеток, то выолняем проверку на цифры
+                        if(countNotResh==countSimular){
+                            for (int i = 0; i < f.length; i++) {
+                                if (f[i] == '#' ){
+                                    countResh++;
+                                }
+                                if(f[i]=='#'&&numbers.contains(s[i]+"")){
+                                    countNumber++;
+                                }
+                            }
+                            if(countResh==countNumber){
                                 answer.add(str);
                             }
                         }
                     }
+
                 }
             }
             return answer.iterator();
