@@ -17,7 +17,7 @@ public class CheckerImpl implements Checker{
         return Pattern.compile("^[A-Za-z]{1}[A-Za-z0-9_$]{0,29}");
     }
     @Override public Pattern getEMailPattern() {
-        return Pattern.compile("^([A-Za-z]{1}|[A-Za-z]{1}[A-Za-z0-9_.-]{0,20}[A-Za-z0-9]{1})@(([a-zA-Z]{1}[.]{1})|([a-zA-Z0-9]{1}[A-Za-z0-9-]*[A-Za-z0-9]+[.]{1}))*(ru|com|net|org){1}");
+        return Pattern.compile("^([a-zA-Z0-9][a-zA-Z0-9_.\\-]{0,20}[a-zA-Z0-9]|[a-zA-Z0-9])[@]([a-zA-Z0-9]{1}[a-zA-Z0-9\\-]*[a-zA-Z0-9]{1}\\.)+(ru|com|net|org)$");
     }
     @Override public boolean checkAccordance(String inputString, Pattern pattern) throws IllegalArgumentException {
         if((inputString==null&&pattern!=null)||(inputString!=null&&pattern==null)){
@@ -55,7 +55,7 @@ public class CheckerImpl implements Checker{
      *
      * @return шаблон для выделения содержащихся на web-странице URL-ов.
      */ @Override public Pattern getHrefURLPattern() {
-        return Pattern.compile("<a\\s+href\\s*=\\s*(\"[^\"] *\"|[^\\s>]*)\\s*>",Pattern.CASE_INSENSITIVE);
+        return Pattern.compile("<[\\s]*[Aa][\\s]+[H|h][R|r][E|e][F|f][\\s]*=[\\s]*(([^\\s\"]*)|(\"([^\"{0}]*)\"))[\\s]*[/]?>");
     }
 
 }
